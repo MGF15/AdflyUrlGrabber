@@ -20,3 +20,8 @@ script use simple api to grab adfly url !
   ```https://www.youtube.com/watch?v=sHFojuvjcbY ```
   
 ^ sorry for my bad Pc and internet :\
+
+#multigrabber.py
+grab multiurl in text file 
+
+Ex ```multigrabber.py file.txt```
