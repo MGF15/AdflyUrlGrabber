@@ -3,16 +3,10 @@ import requests,base64,sys
 #multigrabber.py file.txt []
 
 def crack(code):
-	zeros = ''
-	ones = ''
-	for n,letter in enumerate(code):
-		if n%2 == 0:
-			zeros += code[n]
-		else:
-			ones =code[n] + ones
-	key = zeros + ones
-	key = base64.b64decode(key.encode("utf-8"))
-	return key[2:]
+	q = code[::2]+code[::-2]
+	key = q.decode('base64')[2:]
+	return key
+	
 def url(host):
     r = requests.get(host).text
     ysmm = r.split("ysmm = \'")[1].split("\';")[0]
