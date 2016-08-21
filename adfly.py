@@ -1,20 +1,12 @@
 
-import cherrypy,requests,base64
+import cherrypy,requests
 
 def crack(code):
-	zeros = ''
-	ones = ''
-	for n,letter in enumerate(code):
-		if n%2 == 0:
-			zeros += code[n]
-		else:
-			ones =code[n] + ones
-	key = zeros + ones
-	key = base64.b64decode(key.encode("utf-8"))
-	return key[2:]
-
+	q = code[::2]+code[::-2]
+	key = q.decode('base64')[2:]
+	return key
+	
 class StringMaker(object):
-
 	@cherrypy.expose
 	def index(self):
 		return "Hello! How are you?"
