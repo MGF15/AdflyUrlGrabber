@@ -1,4 +1,4 @@
-import requests,base64,sys
+import requests,sys
 #multigrabber script to grab multi adfly url :)
 #multigrabber.py file.txt []
 
