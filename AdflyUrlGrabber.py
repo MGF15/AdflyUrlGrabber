@@ -2,7 +2,7 @@
 #rewrited by MGF15 to decode new adfly encoder ! f&^%k you adfly
 #algorithm from StoreClerk 
 #python2 only i hate python3 ! :P
-import base64 , urllib, re, sys, urllib
+import base64 , urllib, re, sys
 
 def crack(code):
 
