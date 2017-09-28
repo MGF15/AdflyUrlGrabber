@@ -1,25 +1,54 @@
 #Author:D4Vinci
-import base64 ,urllib2
+#rewrited by MGF15 to decode new adfly encoder ! f&^%k you adfly
+#algorithm from StoreClerk 
+#python2 only i hate python3 ! :P
+import base64 , urllib, re, sys, urllib
 
 def crack(code):
-    zeros = ''
-    ones = ''
-    for n,letter in enumerate(code):
-        if n%2 == 0:
-            zeros += code[n]
-        else:
-            ones =code[n] + ones
-    key = zeros + ones
-    key = base64.b64decode(key.encode("utf-8"))
-    return key[2:]
 
-print " - - AdflyUrlGrabber - - By D4Vinci"
-url = raw_input("\n Adfly url : ")
-if "http" not in url:
-    url = "http://"+url
-print " [+] Grabbing the url Source . . ."
-adfly_data = urllib2.urlopen(url).read()
-print " [+] Searching for url code . . ."
-ysmm = adfly_data.split("ysmm = \'")[1].split("\';")[0]
-print " [+] Cracking the encryption . . ."
-print "\n ### The Final Url Is : "+crack(ysmm)
+	zeros = ''
+	ones = ''
+	for n,letter in enumerate(code):
+		if n % 2 == 0:
+			zeros += code[n]
+		else:
+			ones = code[n] + ones
+	key = zeros + ones
+   
+	key = list(key)
+
+	i = 0
+
+	while i < len(key):
+
+		if key[i].isdigit():
+
+			for j in range(i+1,len(key)):
+
+				if key[j].isdigit():
+                    
+					u = int(key[i])^int(key[j])
+                    
+					if u < 10:
+                        
+						key[i] = str(u)
+                        
+					i = j					
+					break
+		i+=1
+
+	key = ''.join(key).decode('base64')[16:-16]
+
+	return key
+
+if __name__ == '__main__':
+	
+	if len(sys.argv) < 2 : 
+		print ('python AdflyURLGrabber.py <URL>')
+		exit()
+	else:
+		adfly = sys.argv[1]
+		adfly = urllib.urlopen(adfly).read()
+		ysmm = re.findall(r"var ysmm = '(.*?)';",adfly)[0]
+		decrypted_url = crack(ysmm)
+		print decrypted_url
